@@ -11,7 +11,7 @@ class AppConfig(object):
             self.init_app(app, *args, **kwargs)
 
     def init_app(self, app,
-                 configfile=None, envvar=True, default_settings=True,
+                 configfiles=None, envvar=True, default_settings=True,
                  from_envvars='json', from_envvars_prefix=None):
 
         if from_envvars_prefix is None:
@@ -26,9 +26,6 @@ class AppConfig(object):
         elif default_settings:
             app.config.from_object(default_settings)
 
-        # load supplied configuration file
-        if configfile:
-            app.config.from_pyfile(configfile)
 
         # load configuration file from environment
         if envvar is True:
@@ -36,6 +33,14 @@ class AppConfig(object):
 
         if envvar and envvar in os.environ:
             app.config.from_envvar(envvar)
+
+        else:
+            # load supplied configuration files
+            if configfiles:
+                for fname in configfiles:
+                    fname = os.path.expanduser(fname)
+                    if os.path.exists(fname):
+                        app.config.from_pyfile(fname)
 
         # load environment variables
         if from_envvars:

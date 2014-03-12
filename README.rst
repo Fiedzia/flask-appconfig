@@ -12,7 +12,7 @@ Allows you to configure an application using pre-set methods.
 
     from flask.ext.appconfig import AppConfig
 
-    def create_app(configfile=None):
+    def create_app(configfiles=None):
         app = Flask('myapp')
         AppConfig(app, configfile)
         return app
@@ -22,9 +22,19 @@ The application returned by ``create_app`` will, in order:
 1. Load default settings from a module called ``myapp.default_config``, if it
    exists. (method described in
    http://flask.pocoo.org/docs/config/#configuring-from-files )
+
 2. Load settings from a configuration file whose name is given in the
-   environment variable ``MYAPP_CONFIG`` (see link from 1.).
-3. Load json or string values directly from environment variables that start
+   environment variable ``MYAPP_CONFIG`` (see link from 1.) if its set.
+
+   Otherwise load settings from a given list of config files
+   (ie. ['/etc/app/settings.py', '~/.app/settings.py']) if any of them exists.
+   Filenames can be absolute or relative to app directory, so
+   ``settings.py`` would be loaded from ``myapp.settings``, while
+   ``/etc/app/settings.py`` would be threated as absolute path.
+   User home directory will be expanded, so ``~/.app/settings.py`` will
+   be interpreted as expected.
+
+4. Load json or string values directly from environment variables that start
    with a prefix of ``MYAPP_``, i.e. setting ``MYAPP_SQLALCHEMY_ECHO=true``
    will cause the setting of ``SQLALCHEMY_ECHO`` to be ``True``.
 
