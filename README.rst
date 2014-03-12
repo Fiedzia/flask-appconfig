@@ -30,7 +30,7 @@ The application returned by ``create_app`` will, in order:
    (ie. ['/etc/app/settings.py', '~/.app/settings.py']) if any of them exists.
    Filenames can be absolute or relative to app directory, so
    ``settings.py`` would be loaded from ``myapp.settings``, while
-   ``/etc/app/settings.py`` would be threated as absolute path.
+   ``/etc/app/settings.py`` would be treated as absolute path.
    User home directory will be expanded, so ``~/.app/settings.py`` will
    be interpreted as expected.
 
