@@ -39,8 +39,7 @@ class AppConfig(object):
             if configfiles:
                 for fname in configfiles:
                     fname = os.path.expanduser(fname)
-                    if os.path.exists(fname):
-                        app.config.from_pyfile(fname)
+                    app.config.from_pyfile(fname, silent=True)
 
         # load environment variables
         if from_envvars:
